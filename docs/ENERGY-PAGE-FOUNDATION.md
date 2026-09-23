@@ -1,9 +1,33 @@
-# Energy page foundation (Vercel)
+# Status / energy page foundation (Vercel)
 
-- Route: `/energy` on RootRecord Website (Next.js under `skills/website/site`).
-- Background: AWS Network Globe at `https://www.rootrecord.cloud` (override with `NEXT_PUBLIC_GLOBE_URL`). **Only AWS hook** on this page.
-- Overlay: status-style cards (Solar in, Delta/River SOC, AC out, Buckets, Ports).
-- Data: Hawaii → `/api/energy` → cards. Truth tree on desk: `/home/rootrecord/Database/ENERGY`. Until samples exist: **No data** / **Waiting**. Never invent watts.
-- Mainland bypass: energy metrics are not ingested via US-MAINLAND; globe is visual only.
-- Desk owner for BLE/scripts: Bruce Monitor (`skills/energy`). Public seal: Carly Mal before visitor-facing polish.
-- Bak: `Database/GITHUB/website-site.bak-energy-foundation-*`
+## Visitor paths (staged)
+
+| Path | Role |
+|------|------|
+| `/home` | Core landing |
+| `/home/status` | **Only** status/energy board |
+| `/` | Redirect → `/home` |
+| `/status`, `/energy` | Redirect → `/home/status` (legacy) |
+
+AWS `rootrecord.cloud` lander stays untouched until cutover. When the site is 100% done, mainland owns redirect from AWS lander → `/home`.
+
+## Status board
+
+- Background: AWS Network Globe at `https://www.rootrecord.cloud` (`NEXT_PUBLIC_GLOBE_URL`). **Only AWS hook** (iframe).
+- Overlay: Solar in, Delta/River SOC, AC out, Buckets, Ports.
+- API: `/api/energy` stub until measured files exist.
+- No top-level visitor `/energy`.
+
+## Desk publish contract (Bruce Monitor)
+
+Truth tree: `/home/rootrecord/Database/ENERGY`
+
+| Kind | Path pattern |
+|------|----------------|
+| SOC | `soc/delta2-last.json`, `soc/river2pro-last.json` |
+| Watts | `watts/…-last.json` |
+| Samples | `samples/read-….json` |
+
+Empty / missing → **No data** / **Waiting**. Never invent watts or SOC.
+
+Public polish waits Carly Mal re-seal after real samples. Thin power: don’t stack publish/deploy on the BLE cut.

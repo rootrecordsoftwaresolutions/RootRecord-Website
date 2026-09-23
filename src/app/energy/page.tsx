@@ -1,5 +1,5 @@
-import EnergyBoard from "@/components/EnergyBoard";
+import { redirect } from "next/navigation";
 
-export default function EnergyPage() {
-  return <EnergyBoard />;
+export default function LegacyEnergyRedirect() {
+  redirect("/home/status");
 }

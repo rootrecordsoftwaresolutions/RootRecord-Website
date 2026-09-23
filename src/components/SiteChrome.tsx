@@ -1,9 +1,8 @@
 import styles from "@/app/page.module.css";
 
 const NAV = [
-  { href: "/", label: "Home" },
-  { href: "/status", label: "Status" },
-  { href: "/energy", label: "Energy" },
+  { href: "/home", label: "Home" },
+  { href: "/home/status", label: "Status" },
 ];
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
@@ -11,7 +10,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
     <div className={styles.shell}>
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <a className={styles.brand} href="/">
+          <a className={styles.brand} href="/home">
             <span className={styles.logoMark} aria-hidden>
               ◈
             </span>
