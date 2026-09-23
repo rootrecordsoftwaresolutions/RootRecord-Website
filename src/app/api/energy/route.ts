@@ -1,14 +1,11 @@
 /**
  * ==============================================================================
- * GET /api/energy — read measured ENERGY last-files (jobs.py-clean)
+ * GET /api/energy — measured ENERGY (jobs.py-clean)
  * ------------------------------------------------------------------------------
  * Owner: skills/website/site/src/app/api/energy/route.ts
- * Truth: ENERGY_ROOT || /home/rootrecord/Database/ENERGY
- *   soc/{delta2|river2pro}-last.json
- *   watts/{delta2|river2pro}-last.json
- * Rule: missing file → No data / Waiting. Never invent watts/SOC.
- * Secrets: none — never read master-key.env from this route.
- * Note: Vercel edge has no desk FS; set ENERGY_ROOT or publish copies for prod.
+ * 1) Desk FS: ENERGY_ROOT || /home/rootrecord/Database/ENERGY (*-last.json)
+ * 2) Else Hawaii feed: ENERGY_FEED_URL || https://rootserver.rootrecord.cloud/energy
+ * Rule: missing → No data / Waiting. Never invent. Never read master-key.env.
  * ==============================================================================
  */
 
@@ -22,6 +19,9 @@ export const runtime = "nodejs";
 
 const ENERGY_ROOT =
   process.env.ENERGY_ROOT || "/home/rootrecord/Database/ENERGY";
+const ENERGY_FEED_URL =
+  process.env.ENERGY_FEED_URL ||
+  "https://rootserver.rootrecord.cloud/energy";
 
 type SocFile = { soc?: number; at?: string };
 type WattsFile = {
@@ -32,9 +32,6 @@ type WattsFile = {
   at?: string;
 };
 
-// ------------------------------------------------------------------------------
-// SECTION: Honest readers
-// ------------------------------------------------------------------------------
 async function readJson<T>(rel: string): Promise<T | null> {
   try {
     const raw = await readFile(path.join(ENERGY_ROOT, rel), "utf8");
@@ -60,20 +57,17 @@ function latestAt(...ats: (string | undefined | null)[]): string | null {
   return ok.sort().at(-1) ?? null;
 }
 
-// ------------------------------------------------------------------------------
-// SECTION: Handler
-// ------------------------------------------------------------------------------
-export async function GET() {
-  const deltaSoc = await readJson<SocFile>("soc/delta2-last.json");
-  const riverSoc = await readJson<SocFile>("soc/river2pro-last.json");
-  const deltaW = await readJson<WattsFile>("watts/delta2-last.json");
-  const riverW = await readJson<WattsFile>("watts/river2pro-last.json");
-
+function snapshotFromFiles(
+  deltaSoc: SocFile | null,
+  riverSoc: SocFile | null,
+  deltaW: WattsFile | null,
+  riverW: WattsFile | null,
+  source: string,
+) {
   const hasDelta = Boolean(deltaSoc || deltaW);
   const hasRiver = Boolean(riverSoc || riverW);
   const live = hasDelta || hasRiver;
 
-  // Prefer Delta solar/AC for the board summary (desk primary bank).
   const solarInW = hasDelta
     ? fmtW(deltaW?.solar_input_power)
     : hasRiver
@@ -82,8 +76,8 @@ export async function GET() {
 
   const acOut = hasDelta
     ? fmtW(deltaW?.ac_output_power)
-    : hasRiver
-      ? fmtW(riverW?.ac_output_power)
+    : hasRiver && typeof riverW?.ac_output_power === "number"
+      ? fmtW(riverW.ac_output_power)
       : "Waiting";
 
   const usbC = hasDelta
@@ -92,7 +86,7 @@ export async function GET() {
       ? fmtW(riverW?.usbc_output_power)
       : "No data";
 
-  const body = {
+  return {
     status: live ? ("live" as const) : ("Waiting" as const),
     solarInW,
     deltaSoc: hasDelta ? fmtSoc(deltaSoc?.soc) : "No data",
@@ -100,16 +94,9 @@ export async function GET() {
     acOut,
     usbC,
     buckets: "Waiting",
-    ports: {
-      ac: acOut,
-      usbc: usbC,
-    },
-    source: ENERGY_ROOT,
+    ports: { ac: acOut, usbc: usbC },
+    source,
     files: {
-      delta2Soc: "soc/delta2-last.json",
-      river2proSoc: "soc/river2pro-last.json",
-      delta2Watts: "watts/delta2-last.json",
-      river2proWatts: "watts/river2pro-last.json",
       present: {
         delta2Soc: Boolean(deltaSoc),
         river2proSoc: Boolean(riverSoc),
@@ -124,11 +111,43 @@ export async function GET() {
       riverW?.at,
     ),
     note: live
-      ? "Measured desk samples. Missing device files stay No data / Waiting."
+      ? "Measured samples. Missing device files stay No data / Waiting."
       : "No *-last.json under ENERGY yet.",
   };
+}
 
-  return NextResponse.json(body, {
-    headers: { "Cache-Control": "no-store" },
-  });
+export async function GET() {
+  const deltaSoc = await readJson<SocFile>("soc/delta2-last.json");
+  const riverSoc = await readJson<SocFile>("soc/river2pro-last.json");
+  const deltaW = await readJson<WattsFile>("watts/delta2-last.json");
+  const riverW = await readJson<WattsFile>("watts/river2pro-last.json");
+
+  if (deltaSoc || riverSoc || deltaW || riverW) {
+    return NextResponse.json(
+      snapshotFromFiles(deltaSoc, riverSoc, deltaW, riverW, ENERGY_ROOT),
+      { headers: { "Cache-Control": "no-store" } },
+    );
+  }
+
+  // Hosted Vercel: no desk FS — pull Hawaii feed (tunnel), never invent
+  try {
+    const res = await fetch(ENERGY_FEED_URL, {
+      cache: "no-store",
+      signal: AbortSignal.timeout(8000),
+    });
+    if (res.ok) {
+      const body = await res.json();
+      return NextResponse.json(
+        { ...body, feed: ENERGY_FEED_URL },
+        { headers: { "Cache-Control": "no-store" } },
+      );
+    }
+  } catch {
+    /* fall through */
+  }
+
+  return NextResponse.json(
+    snapshotFromFiles(null, null, null, null, ENERGY_ROOT),
+    { headers: { "Cache-Control": "no-store" } },
+  );
 }

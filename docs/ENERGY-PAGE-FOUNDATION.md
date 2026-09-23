@@ -3,37 +3,20 @@
 # Owner path: skills/website/site
 # ==============================================================================
 
-## SECTION: Visitor paths
+## Visitor paths
 
 | Path | Role |
 |------|------|
 | `/home` | Core landing |
-| `/home/status` | **Only** status/energy board |
+| `/home/status` | Only status/energy board |
 | `/` | Redirect → `/home` |
-| `/status`, `/energy` | Redirect → `/home/status` |
 
-## SECTION: Status board (`EnergyBoard.tsx`)
+## Data path (Hawaii direct)
 
-- Background: `https://www.rootrecord.cloud` (`NEXT_PUBLIC_GLOBE_URL`) — iframe only.
-- Overlay: Solar in · Delta SOC · River SOC · AC out · Buckets · Ports (AC/USB-C).
-- Fetch: `GET /api/energy` every 60s.
+1. Desk FS: `Database/ENERGY/*-last.json`
+2. Hosted: `GET https://rootserver.rootrecord.cloud/energy` (poller) ← `ENERGY_FEED_URL`
+3. Vercel `/api/energy` tries FS then feed. Never invent. Never `master-key.env`.
 
-## SECTION: Desk contract (Bruce)
+## Seal
 
-Root: `ENERGY_ROOT` || `/home/rootrecord/Database/ENERGY`
-
-| Kind | Files |
-|------|--------|
-| SOC | `soc/delta2-last.json`, `soc/river2pro-last.json` |
-| Watts | `watts/delta2-last.json`, `watts/river2pro-last.json` |
-| Samples | `samples/read-*.json` (archive; board uses `*-last.json`) |
-
-Missing file → **No data** / **Waiting**. Never invent watts or SOC.
-
-## SECTION: Deploy note
-
-Desk/local Next can read the OmniBook ENERGY tree. Hosted Vercel has no desk FS — publish measured `*-last.json` (or set `ENERGY_ROOT` on a Hawaii-reachable runtime) before visitor cutover. AWS lander untouched until then.
-
-## SECTION: Seal
-
-Visitor polish: Carly Mal re-seal after measured samples (in progress once Delta files exist).
+Visitor polish: Carly re-seal when hosted feed is verified. Ports honesty: low-SOC smoke ≠ green toggles.
