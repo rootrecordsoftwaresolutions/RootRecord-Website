@@ -3,6 +3,7 @@ import styles from "@/app/page.module.css";
 const NAV = [
   { href: "/", label: "Home" },
   { href: "/status", label: "Status" },
+  { href: "/energy", label: "Energy" },
 ];
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {

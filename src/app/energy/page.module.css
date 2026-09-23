@@ -1,0 +1,129 @@
+/* Full-viewport energy board: AWS Network Globe as background only. */
+
+.page {
+  position: relative;
+  min-height: calc(100dvh - 7.5rem);
+  margin: -2.5rem -1.25rem -3rem;
+  width: calc(100% + 2.5rem);
+  max-width: none;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.globeFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+  background: #02060c;
+  z-index: 0;
+}
+
+/* Soft veil so overlay cards stay readable over the globe */
+.veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(6, 10, 16, 0.55) 0%, rgba(6, 10, 16, 0.28) 40%, rgba(6, 10, 16, 0.62) 100%),
+    radial-gradient(ellipse at 50% 20%, rgba(10, 18, 32, 0.15), rgba(6, 10, 16, 0.55));
+  pointer-events: none;
+}
+
+.overlay {
+  position: relative;
+  z-index: 2;
+  padding: 1.75rem 1.25rem 2.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: clamp(1.75rem, 4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 1.02rem;
+  max-width: 42rem;
+  line-height: 1.55;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0.85rem;
+}
+
+.card {
+  background: rgba(12, 18, 28, 0.78);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.05rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
+.card h2 {
+  margin: 0 0 0.45rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.mono {
+  margin: 0;
+  font-family: var(--font-mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.note {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.metaRow code {
+  font-size: 0.78rem;
+  color: var(--accent, #5eead4);
+}
+
+.globeHint {
+  font-size: 0.78rem;
+  color: var(--muted);
+  opacity: 0.9;
+}
+
+@media (min-width: 720px) {
+  .page {
+    min-height: calc(100dvh - 8rem);
+  }
+}
