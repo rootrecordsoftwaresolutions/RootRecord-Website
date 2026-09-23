@@ -27,6 +27,7 @@ type EnergySnapshot = {
   deltaSoc: string;
   riverSoc: string;
   acOut: string;
+  usbC: string;
   buckets: string;
   source: string;
   updated: string | null;
@@ -38,6 +39,7 @@ const EMPTY: EnergySnapshot = {
   deltaSoc: "No data",
   riverSoc: "No data",
   acOut: "Waiting",
+  usbC: "No data",
   buckets: "Waiting",
   source: "/home/rootrecord/Database/ENERGY",
   updated: null,
@@ -67,6 +69,7 @@ export default function EnergyBoard() {
             deltaSoc: data.deltaSoc ?? "No data",
             riverSoc: data.riverSoc ?? "No data",
             acOut: data.acOut ?? "Waiting",
+            usbC: data.usbC ?? "No data",
             buckets: data.buckets ?? "Waiting",
             status: data.status ?? "Waiting",
             source: data.source ?? EMPTY.source,
@@ -136,8 +139,8 @@ export default function EnergyBoard() {
           </article>
           <article className={styles.card}>
             <h2>Ports</h2>
-            <p className={styles.mono}>Waiting</p>
-            <p className={styles.note}>Per-port scripts land with desk energy skill</p>
+            <p className={styles.mono}>AC {snap.acOut}</p>
+            <p className={styles.note}>USB-C {snap.usbC}</p>
           </article>
         </div>
         <div className={styles.metaRow}>
