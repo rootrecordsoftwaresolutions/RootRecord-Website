@@ -1,33 +1,34 @@
-# Status / energy page foundation (Vercel)
+# ==============================================================================
+# STATUS / ENERGY BOARD — foundation (Vercel)
+# Owner path: skills/website/site
+# ==============================================================================
 
-## Visitor paths (staged)
+## SECTION: Visitor paths
 
 | Path | Role |
 |------|------|
 | `/home` | Core landing |
 | `/home/status` | **Only** status/energy board |
 | `/` | Redirect → `/home` |
-| `/status`, `/energy` | Redirect → `/home/status` (legacy) |
+| `/status`, `/energy` | Redirect → `/home/status` |
 
-AWS `rootrecord.cloud` lander stays untouched until cutover. When the site is 100% done, mainland owns redirect from AWS lander → `/home`.
+## SECTION: Status board (`EnergyBoard.tsx`)
 
-## Status board
+- Background: `https://www.rootrecord.cloud` (`NEXT_PUBLIC_GLOBE_URL`) — iframe only.
+- Overlay cards: Solar in · Delta SOC · River SOC · AC out · Buckets · Ports.
+- Fetch: `GET /api/energy` every 60s. Missing → No data / Waiting.
 
-- Background: AWS Network Globe at `https://www.rootrecord.cloud` (`NEXT_PUBLIC_GLOBE_URL`). **Only AWS hook** (iframe).
-- Overlay: Solar in, Delta/River SOC, AC out, Buckets, Ports.
-- API: `/api/energy` stub until measured files exist.
-- No top-level visitor `/energy`.
+## SECTION: Desk contract (Bruce)
 
-## Desk publish contract (Bruce Monitor)
+Root: `/home/rootrecord/Database/ENERGY`
 
-Truth tree: `/home/rootrecord/Database/ENERGY`
-
-| Kind | Path pattern |
-|------|----------------|
+| Kind | Files |
+|------|--------|
 | SOC | `soc/delta2-last.json`, `soc/river2pro-last.json` |
-| Watts | `watts/…-last.json` |
-| Samples | `samples/read-….json` |
+| Watts | `watts/*-last.json` |
+| Samples | `samples/read-*.json` |
 
-Empty / missing → **No data** / **Waiting**. Never invent watts or SOC.
+## SECTION: Seal
 
-Public polish waits Carly Mal re-seal after real samples. Thin power: don’t stack publish/deploy on the BLE cut.
+Visitor polish held until measured files exist + Carly Mal re-seal.
+Thin power: do not stack publish/deploy on the BLE cut.

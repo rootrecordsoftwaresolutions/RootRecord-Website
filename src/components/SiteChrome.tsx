@@ -1,3 +1,7 @@
+/**
+ * SiteChrome — shared shell
+ * Nav: /home · /home/status only (visitor path). Brand → /home.
+ */
 import styles from "@/app/page.module.css";
 
 const NAV = [

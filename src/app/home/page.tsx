@@ -1,3 +1,4 @@
+/** /home — core landing (jobs.py-clean). Status link → /home/status only. */
 import styles from "@/app/page.module.css";
 
 export const metadata = {

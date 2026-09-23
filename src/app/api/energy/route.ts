@@ -1,29 +1,35 @@
+/**
+ * ==============================================================================
+ * GET /api/energy — Hawaii → Vercel snapshot stub (jobs.py-clean)
+ * ------------------------------------------------------------------------------
+ * Owner: skills/website/site/src/app/api/energy/route.ts
+ * Truth: /home/rootrecord/Database/ENERGY
+ *   soc/{delta2|river2pro}-last.json
+ *   watts/*-last.json
+ *   samples/read-*.json
+ * Rule: empty/missing → No data / Waiting. Never invent watts/SOC.
+ * Plug: when Bruce publishes measured files, map them here (Hawaii direct).
+ * ==============================================================================
+ */
+
 import { NextResponse } from "next/server";
 
-/**
- * Hawaii → Vercel energy snapshot.
- *
- * Desk contract (Bruce Monitor / skills/energy) — measured files only:
- *   Database/ENERGY/soc/{delta2|river2pro}-last.json
- *   Database/ENERGY/watts/…-last.json
- *   Database/ENERGY/samples/read-…json
- *
- * Empty tree or missing file → No data / Waiting. Never invent watts or SOC.
- * This route stays a stub until Hawaii publishes those snapshots here.
- */
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+// ------------------------------------------------------------------------------
+// SECTION: Contract (paths only — no live reads on Vercel yet)
+// ------------------------------------------------------------------------------
 const CONTRACT = {
   root: "/home/rootrecord/Database/ENERGY",
-  soc: [
-    "soc/delta2-last.json",
-    "soc/river2pro-last.json",
-  ],
+  soc: ["soc/delta2-last.json", "soc/river2pro-last.json"],
   watts: "watts/*-last.json",
   samples: "samples/read-*.json",
 } as const;
 
+// ------------------------------------------------------------------------------
+// SECTION: Handler
+// ------------------------------------------------------------------------------
 export async function GET() {
   return NextResponse.json(
     {
@@ -43,12 +49,8 @@ export async function GET() {
       },
       updated: null,
       note:
-        "Foundation stub. Empty tree or missing file = No data / Waiting. Plug when measured snapshots appear.",
+        "Stub. Empty tree or missing file = No data / Waiting. Plug when measured snapshots appear.",
     },
-    {
-      headers: {
-        "Cache-Control": "no-store",
-      },
-    },
+    { headers: { "Cache-Control": "no-store" } },
   );
 }

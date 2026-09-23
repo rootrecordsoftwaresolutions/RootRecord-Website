@@ -1,9 +1,24 @@
 "use client";
 
+/**
+ * ==============================================================================
+ * EnergyBoard — /home/status overlay (jobs.py-clean)
+ * ------------------------------------------------------------------------------
+ * Owner: skills/website/site/src/components/EnergyBoard.tsx
+ * Page:  /home/status
+ * API:   GET /api/energy
+ * Truth: /home/rootrecord/Database/ENERGY (soc|watts|samples *-last / read-*)
+ * AWS:   globe iframe only (NEXT_PUBLIC_GLOBE_URL || www.rootrecord.cloud)
+ * Rule:  empty/missing → No data / Waiting. Never invent watts/SOC.
+ * ==============================================================================
+ */
+
 import { useEffect, useState } from "react";
 import styles from "@/app/home/status/page.module.css";
 
-/** AWS Network Globe — only AWS hook on this page (visual background). */
+// ------------------------------------------------------------------------------
+// SHARED DEFAULTS
+// ------------------------------------------------------------------------------
 const DEFAULT_GLOBE = "https://www.rootrecord.cloud";
 
 type EnergySnapshot = {
@@ -24,10 +39,13 @@ const EMPTY: EnergySnapshot = {
   riverSoc: "No data",
   acOut: "Waiting",
   buckets: "Waiting",
-  source: "/home/rootrecord/Database/ENERGY", // soc/*-last, watts/*-last, samples/read-*
+  source: "/home/rootrecord/Database/ENERGY",
   updated: null,
 };
 
+// ------------------------------------------------------------------------------
+// SECTION: Board
+// ------------------------------------------------------------------------------
 export default function EnergyBoard() {
   const [snap, setSnap] = useState<EnergySnapshot>(EMPTY);
   const globeUrl =
@@ -45,7 +63,6 @@ export default function EnergyBoard() {
           setSnap({
             ...EMPTY,
             ...data,
-            // Never invent numbers — coerce missing to No data / Waiting
             solarInW: data.solarInW ?? "No data",
             deltaSoc: data.deltaSoc ?? "No data",
             riverSoc: data.riverSoc ?? "No data",
@@ -57,7 +74,7 @@ export default function EnergyBoard() {
           });
         }
       } catch {
-        /* stay on last honest snapshot */
+        /* keep last honest snapshot */
       }
     };
     void tick();
@@ -69,7 +86,7 @@ export default function EnergyBoard() {
   }, []);
 
   return (
-    <section className={styles.page} aria-label="Energy board">
+    <section className={styles.page} aria-label="Status and energy board">
       <iframe
         className={styles.globeFrame}
         src={globeUrl}
@@ -81,13 +98,15 @@ export default function EnergyBoard() {
       <div className={styles.veil} aria-hidden />
       <div className={styles.overlay}>
         <div className={styles.kicker}>
-          <span className="pill pill-muted">{snap.status === "live" ? "Live" : "No data"}</span>
+          <span className="pill pill-muted">
+            {snap.status === "live" ? "Live" : "No data"}
+          </span>
           <span className="pill pill-amber">
             {snap.status === "live" ? "Desk" : "Waiting"}
           </span>
           <span className="pill pill-muted">Hawaiʻi direct</span>
         </div>
-        <h1 className={styles.title}>Energy</h1>
+        <h1 className={styles.title}>Status</h1>
         <p className={styles.lead}>
           Off-grid board for Fern Forest. Watts and SOC come from measured
           Hawaii samples only. The Network Globe behind this overlay is the
