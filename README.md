@@ -1,31 +1,29 @@
-# RootRecord Platform
+# RootRecord Website (foundation)
 
-RootRecord public interface foundation.
+Public Next.js app for **Root Record Software Solutions**.
 
-## Purpose
+GitHub: `rootrecordsoftwaresolutions/RootRecord-Website`  
+OmniBook desk: `~/.ollama/skills/website/`
 
-This application provides the public presentation layer for RootRecord systems.
+## Stack
 
-It is designed as an independent deployment surface separate from operational infrastructure.
+- Next.js 15 (App Router)
+- React 19
+- TypeScript
 
-## Principles
+## Local
 
-- Public interface layer
-- Independent deployment lifecycle
-- No dependency on primary compute availability
-- No secrets stored in repository
-- API connections added deliberately
-
-## Development
-
-Install dependencies:
-
+```bash
 npm install
-
-Run locally:
-
 npm run dev
+```
 
-Build:
+## Vercel
 
-npm run build
+Import this repository. Framework **Next.js**. Root directory `.`.
+
+No secrets required for the foundation build.
+
+## Scope
+
+Landing + Status stub only. Live desk APIs, auth, and goals are out of scope for foundation.

@@ -1,0 +1,120 @@
+.shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  border-bottom: 1px solid var(--border);
+  background: rgba(10, 14, 20, 0.92);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.headerInner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+.brand:hover { text-decoration: none; color: var(--accent); }
+
+.logoMark { color: var(--accent); font-size: 1.1rem; }
+
+.nav {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.nav a {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.nav a:hover { color: var(--text); text-decoration: none; }
+
+.main {
+  flex: 1;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 3rem;
+}
+
+.hero {
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: clamp(1.85rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 40rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.1rem 1.15rem;
+}
+
+.card h2 {
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 1.25rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.footerSub { margin-top: 0.25rem; opacity: 0.8; }
