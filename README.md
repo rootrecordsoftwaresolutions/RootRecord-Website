@@ -1,29 +1,13 @@
-# RootRecord Website (foundation)
+# RootRecord-Website
 
-Public Next.js app for **Root Record Software Solutions**.
+> **Personal-account working copy.** Canonical ops authority is the **org**.
 
-GitHub: `rootrecordsoftwaresolutions/RootRecord-Website`  
-OmniBook desk: `~/.ollama/skills/website/`
+> **Authority:** [RootRecord-Software-Solutions](https://github.com/RootRecord-Software-Solutions)  
+> **Docs index:** [MIGRATION-DOCS-INDEX](https://github.com/RootRecord-Software-Solutions/RootRecord-Library/blob/main/Documentation/00-architecture/MIGRATION-DOCS-INDEX-2026-09-28.md)  
+> **Product / archive catalog:** [Product-Archive-Repo-Catalog](https://github.com/RootRecord-Software-Solutions/RootRecord-Library/blob/main/Documentation/00-architecture/Product-Archive-Repo-Catalog-2026-09-28.md)  
+> **Live Pacific:** [RootRecord-Pacific-Solar-Server](https://github.com/RootRecord-Software-Solutions/RootRecord-Pacific-Solar-Server)  
+> **Library:** [RootRecord-Library](https://github.com/RootRecord-Software-Solutions/RootRecord-Library)
 
-## Stack
+Public-facing website / service interface. Product track **E** (web). Align with org when promoting canonical public home.
 
-- Next.js 15 (App Router)
-- React 19
-- TypeScript
-
-## Local
-
-```bash
-npm install
-npm run dev
-```
-
-## Vercel
-
-Import this repository. Framework **Next.js**. Root directory `.`.
-
-No secrets required for the foundation build.
-
-## Scope
-
-Landing + Status stub only. Live desk APIs, auth, and goals are out of scope for foundation.
+*Transition banner 2026-09-28 HST.*
