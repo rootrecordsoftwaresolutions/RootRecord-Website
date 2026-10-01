@@ -12,7 +12,7 @@ Production is [https://www.rootrecord.cloud/](https://www.rootrecord.cloud/).
 | --- | --- |
 | `/` | Live public overview |
 | `/ecosystem` | How knowledge, runtime, and data fit together |
-| `/infrastructure` | Hawaiʻi, the Root Record Network, and the Mainland Server |
+| `/infrastructure` | Hawaiʻi, the Root Record Network, and the VPS Node |
 | `/operations` | Field systems and operations |
 | `/intelligence` | Agents, context, execution, and verification |
 | `/data` | Telemetry and persistent state |
@@ -25,9 +25,9 @@ Navigation stays short: Home, Ecosystem, Systems, Intelligence, Knowledge, Secur
 
 ## Vocabulary
 
-Hawaiʻi. Mainland Server. Root Record Network. Pacific Solar Server. RootRecord Library. RootRecord Database. Field systems. Intelligent systems. Runtime. Knowledge layer. Data layer. Verification. Continuity.
+Hawaiʻi. VPS Node. Root Record Network. Pacific Solar Server. RootRecord Library. RootRecord Database. Field systems. Intelligent systems. Runtime. Knowledge layer. Data layer. Verification. Continuity.
 
-The public relationship is Hawaiʻi and the Mainland Server. The site does not name a cloud provider, a finer server location, or private infrastructure.
+The public relationship is Hawaiʻi and the VPS Node. The site does not name a cloud provider, a finer server location, or private infrastructure.
 
 ## Status feed
 
