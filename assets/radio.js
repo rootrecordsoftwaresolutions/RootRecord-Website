@@ -3,6 +3,9 @@
   var OPEN_MS = 12000;
   var GAP_MS = 10 * 60 * 1000;
   var POLL_MS = 20000;
+  var WATCH_MS = 5000;
+  var STALL_MS = 15000;
+  var LEASE_MS = 12000;
   var DUCK = 0.25;
   var FULL = 1;
   var SILENCE = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
