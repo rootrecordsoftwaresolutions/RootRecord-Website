@@ -35,6 +35,7 @@
   var opsSeen = false;
   var opsAt = null;
   var lastReadings = null;
+  var lastMoonPhase = null;
 
   function wordFrom(hasSignal, fresh) {
     if (!navigator.onLine) return "OFFLINE";
@@ -298,6 +299,7 @@
   }
 
   function paintMoonClock() {
+    if (lastMoonPhase !== null) drawMoon(lastMoonPhase);
     var node = document.getElementById("moon-when");
     if (!node) return;
     var parts = new Intl.DateTimeFormat("en-US", {
@@ -326,6 +328,7 @@
       drawMoon(null);
       return;
     }
+    lastMoonPhase = moon.phase;
     text("moon-phase-name", moon.name || "Moon");
     text("moon-illum", moon.illumination === null ? "Illumination unavailable" : Math.round(moon.illumination) + "% illuminated");
     var next = moon.nextName ? "Next · " + moon.nextName : "Next phase unavailable";
