@@ -630,5 +630,6 @@
     clearInterval(opsTimer);
     clearInterval(noticeTimer);
     clearInterval(moonTimer);
+    clearInterval(quakeTimer);
   });
 })();
