@@ -1255,12 +1255,15 @@ body.desk .top { background: #000011; }
   letter-spacing: 0.08em;
 }
 
+.product h2,
 .product h3 {
   margin: 0;
   font-size: clamp(16px, 2vw, 20px);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+
+p .enter { display: inline-block; }
 
 .product .position {
   margin: 8px 0 0;
