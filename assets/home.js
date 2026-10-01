@@ -270,15 +270,25 @@
   }
 
   function spinStep() {
-    if (disposed || hidden || reduced() || !spinOn || !earthPivot) return;
-    earthPivot.rotation.y += 0.00055;
-    if (cloudsMesh) cloudsMesh.rotation.y += 0.00004;
+    if (disposed || hidden || reduced() || !spinOn || !globe) return;
+    var scene = globe.scene && globe.scene();
+    if (earthPivot && scene && earthPivot !== scene) {
+      earthPivot.rotation.y += 0.00055;
+      if (cloudsMesh) cloudsMesh.rotation.y += 0.00004;
+      return;
+    }
+    var controls = globe.controls && globe.controls();
+    if (controls) {
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.35;
+    }
   }
 
   function frame(now) {
     if (disposed) return;
     rafId = window.requestAnimationFrame(frame);
     if (hidden) return;
+    if (reduced() && cloudsMesh) cloudsMesh.rotation.y = 0;
     spinStep();
     placeBodies((now || 0) / 1000);
   }
@@ -361,9 +371,13 @@
         var mat = globe.globeMaterial && globe.globeMaterial();
         if (mat && mat.map) {
           if (mat.bumpScale !== undefined) mat.bumpScale = 8;
-          applyNight(sun);
-          findEarth();
-          addBodies(sun);
+          try {
+            applyNight(sun);
+            findEarth();
+            addBodies(sun);
+          } catch (err) {
+            /* Earth still renders if the extra layers fail. */
+          }
           return;
         }
         tries += 1;
